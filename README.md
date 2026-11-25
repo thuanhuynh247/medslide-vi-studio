@@ -28,4 +28,4 @@ Dữ liệu dự án được lưu ở `Documents\MedSlide VI Studio\`. Cấu h�
 Phần ghi công cho grand-rounds, 2anh-studio và frontend-slides (đều theo giấy phép MIT) nằm trong [NOTICE.md](NOTICE.md).
 
 ## Website
-Thư mục `web/` là trang giới thiệu tĩnh, triển khai trên Vercel với Root Directory là `web`. Nút tải luôn trỏ tới bản phát hành mới nhất trên GitHub Releases (`MedSlide-VI-Studio-Setup-x64.exe`, `MedSlide-VI-Studio-Portable-x64.exe`). Đổi phiên bản trong `web/config.js`.
+Trang chủ: https://medslide-vi-studio.vercel.app — thư mục `web/` là trang giới thiệu tĩnh, triển khai trên Vercel với Root Directory là `web`. Nút tải luôn trỏ tới bản phát hành mới nhất trên GitHub Releases (`MedSlide-VI-Studio-Setup-x64.exe`, `MedSlide-VI-Studio-Portable-x64.exe`). Đổi phiên bản trong `web/config.js`.
