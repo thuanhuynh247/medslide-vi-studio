@@ -400,7 +400,7 @@ window.deck = {
       e.textContent = vi(parseFloat(e.dataset.count), +(e.dataset.dec || 0)) + (e.dataset.suf || ''); }); },
   hooks
 };
-if(!document.body.classList.contains('print')){addEventListener('resize', fit); fit(); wake();} else { slides.forEach(s=>{s.classList.add('active','play');$('[data-frag]',s).forEach(e=>e.classList.add('frag','on'));}); }
+if(!document.body.classList.contains('print')){addEventListener('resize', fit); fit(); wake();} else { slides.forEach(s=>{s.classList.add('active','play');$$('[data-frag]',s).forEach(e=>e.classList.add('frag','on'));}); }
 show(Math.min(slides.length - 1, Math.max(0, (parseInt(location.hash.slice(1)) || 1) - 1)));
 })();
 </script>

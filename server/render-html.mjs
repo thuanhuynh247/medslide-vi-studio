@@ -280,10 +280,10 @@ export function renderDeckHtml(deck, project, { print = false } = {}) {
     .replace("</style>", css + "\n</style>")
     .replace(/<!-- ===== SLIDES:[\s\S]*?===== END SLIDES ===== -->/, () => slides)
     .replace('<body class="t-none" data-cite="">', `<body class="t-none${print ? " print" : ""}" data-cite="${esc(t.band && deck.meta?.affiliation ? deck.meta.affiliation : "")}">`)
-    .replace("/* ---- per-deck code (figures, charts) goes here, before the engine ---- */",
+    .replace("/* ---- per-deck code (figures, charts) goes here, before the engine ---- */", () =>
       `/* MedSlide VI Studio */ if (/[?&]print/.test(location.search)) document.body.classList.add('print'); if (/[?&]embed/.test(location.search)) document.body.classList.add('embed');`);
   // chế độ in PDF (?print hoặc print=true): hiện mọi slide và fragment, không co giãn sân khấu
-  html = html.replace("addEventListener('resize', fit); fit(); wake();", "if(!document.body.classList.contains('print')){addEventListener('resize', fit); fit(); wake();} else { slides.forEach(s=>{s.classList.add('active','play');$$('[data-frag]',s).forEach(e=>e.classList.add('frag','on'));}); }");
+  html = html.replace("addEventListener('resize', fit); fit(); wake();", () => "if(!document.body.classList.contains('print')){addEventListener('resize', fit); fit(); wake();} else { slides.forEach(s=>{s.classList.add('active','play');$$('[data-frag]',s).forEach(e=>e.classList.add('frag','on'));}); }");
   html = html.replace("<!--\n  Grand Rounds HTML deck engine.", "<!--\n  Made with MedSlide VI Studio (huynhanhthuan.com). Engine: Grand Rounds HTML deck engine (MIT, Trần Quang Hưng).");
   return html;
 }
