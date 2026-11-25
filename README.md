@@ -28,4 +28,4 @@ Dữ liệu dự án được lưu ở `Documents\MedSlide VI Studio\`. Cấu h�
 Thông báo giấy phép của các thành phần mã nguồn mở: xem `NOTICE.md` và thư mục `licenses/`.
 
 ## Website
-Trang chủ: https://medslide-vi-studio.vercel.app — thư mục `web/` là trang giới thiệu tĩnh, triển khai trên Vercel với Root Directory là `web`. Nút tải luôn trỏ tới bản phát hành mới nhất trên GitHub Releases (`MedSlide-VI-Studio-Setup-x64.exe`, `MedSlide-VI-Studio-Portable-x64.exe`). Đổi phiên bản trong `web/config.js`.
+Trang chủ: https://slide.huynhanhthuan.com — thư mục `web/` là trang giới thiệu tĩnh, triển khai trên Vercel với Root Directory là `web`. Nút tải luôn trỏ tới bản phát hành mới nhất trên GitHub Releases (`MedSlide-VI-Studio-Setup-x64.exe`, `MedSlide-VI-Studio-Portable-x64.exe`). Đổi phiên bản trong `web/config.js`.
