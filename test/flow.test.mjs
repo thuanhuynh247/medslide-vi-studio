@@ -3,11 +3,12 @@ import assert from "node:assert/strict";
 import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), "medslide-"));
 process.env.MEDSLIDE_DATA_DIR = tmp;
 process.env.HOME = tmp; process.env.USERPROFILE = tmp;
-process.env.MEDSLIDE_MOCK_AI = new URL("./mock-ai.mjs", import.meta.url).pathname;
+process.env.MEDSLIDE_MOCK_AI = fileURLToPath(new URL("./mock-ai.mjs", import.meta.url));
 const { startServer } = await import("../server/index.mjs");
 const { parseJsonLoose } = await import("../server/pipeline.mjs");
 const { auditDeck } = await import("../server/audit.mjs");

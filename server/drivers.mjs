@@ -1,3 +1,4 @@
+import { pathToFileURL } from "node:url";
 // drivers.mjs — Lõi kết nối AI CLI & API (kế thừa PDF Layout VI Studio): Claude Code, Codex, Gemini, Antigravity, Muse, Ollama, OpenCode, Copilot, Qwen, OpenRouter
 import { spawn } from "node:child_process";
 import fs from "node:fs";
@@ -855,7 +856,7 @@ export async function pingEngine(id, model) {
 export async function runAi(prompt, { engine, model, fallback = [] } = {}) {
   // Móc kiểm thử: MEDSLIDE_MOCK_AI trỏ tới module trả lời giả (dùng cho test/CI, không có trong bản phát hành)
   if (process.env.MEDSLIDE_MOCK_AI) {
-    const mock = await import(new URL("file://" + path.resolve(process.env.MEDSLIDE_MOCK_AI)).href);
+    const mock = await import(pathToFileURL(path.resolve(process.env.MEDSLIDE_MOCK_AI)).href);
     return { text: await mock.default(prompt), engine: "mock" };
   }
   const order = [engine, ...fallback].filter(Boolean);
