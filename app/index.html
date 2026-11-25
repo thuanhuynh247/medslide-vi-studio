@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MedSlide VI Studio</title>
+<link rel="icon" href="icon.png">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<aside id="side">
+  <div class="brand"><img src="icon.png" alt=""><div><b>MedSlide VI</b><span>Studio slide Y khoa</span></div></div>
+  <button class="btn primary block" id="newBtn">+ Bài trình bày mới</button>
+  <div class="side-h">Dự án</div>
+  <div id="projList" class="proj-list"></div>
+  <div class="side-foot">
+    <button class="ai-chip" id="aiChip" title="Kết nối AI"><i class="dot"></i><span id="aiChipT">Chưa kết nối AI</span></button>
+    <button class="link" id="sampleBtn">Mở bài mẫu DAPA-HF</button>
+    <div class="ver">v<span id="ver"></span> · <a href="#" data-ext="https://huynhanhthuan.com">huynhanhthuan.com</a></div>
+  </div>
+</aside>
+
+<main id="main">
+  <header id="top">
+    <div class="ptitle" id="ptitle">Chào bác sĩ</div>
+    <nav id="steps"></nav>
+  </header>
+  <section id="view"></section>
+</main>
+
+<div id="modal" class="modal" hidden><div class="mbox"><button class="x" data-close>×</button><div id="mbody"></div></div></div>
+<div id="busy" class="busy" hidden><div class="bbox"><div class="spin"></div><b id="busyT">Đang xử lý…</b><div id="busyP" class="muted"></div><div id="busyS" class="muted small"></div></div></div>
+<div id="toast" class="toast" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>

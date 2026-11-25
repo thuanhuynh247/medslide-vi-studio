@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Talk title · Presenter</title>
+<!--
+  Grand Rounds HTML deck engine. One file, offline, 1920×1080 stage scaled to the screen.
+  Keys: ←/→ (or clicker) move · F fullscreen · N notes · R replay slide · 1–9 jump
+        L laser · C circle · P pen · Z undo · E erase slide · Esc pointer
+  Author slides as <section class="slide …" data-name="…"> with <aside class="notes">.
+  Fragments: any element with data-frag="1", "2"… appears on successive clicks.
+  Scenes: an element with data-scene="4" gets class s0…s4 as the presenter clicks (mechanisms).
+  Theme: edit the :root variables (from theme/theme.json). Footer text: <body data-cite="…">.
+-->
+<style>
+:root{
+  /* theme: replace from theme.json */
+  --bg:#FFFFFF; --ink:#1B2430; --ink2:#3C4654; --muted:#66707C; --faint:#98A1AC; --line:#D9DDE2;
+  --primary:#0F5E7A; --primary-l:#E6F0F4; --accent:#B4462E;
+  --int:#C8372D; --int-l:#FBEAE8; --ctl:#56677F; --ctl-l:#EEF1F5;
+  --font:Arial,'Helvetica Neue',Helvetica,sans-serif; --font-head:var(--font);
+  --title-size:56px; --body-size:28px; --small:22px; --foot:18px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#1E1E1E;overflow:hidden;font-family:var(--font);color:var(--ink);-webkit-font-smoothing:antialiased}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;transform-origin:50% 50%;background:var(--bg);overflow:hidden}
+
+/* slides: cross-fade only */
+.slide{position:absolute;inset:0;opacity:0;visibility:hidden;transition:opacity .4s ease,visibility 0s linear .4s}
+.slide.active{opacity:1;visibility:visible;transition:opacity .4s ease}
+.a-in{opacity:0}
+.slide.play .a-in{animation:rise .6s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--d,0s)}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.slide .draw{stroke-dasharray:1;stroke-dashoffset:1}
+.slide.play .draw{stroke-dashoffset:0;transition:stroke-dashoffset .55s ease-out var(--d,0s)}
+.slide .pop{opacity:0}
+.slide.play .pop{opacity:1;transition:opacity .35s ease var(--d,0s)}
+.frag{opacity:0;transition:opacity .45s ease}
+.frag.on{opacity:1}
+@media (prefers-reduced-motion:reduce){.slide.play .a-in{animation:none;opacity:1}.slide .draw{stroke-dashoffset:0}.slide .pop,.frag{opacity:1}}
+
+/* default layout: title top-left, body area, small footer (replace with the template's chrome) */
+.slide h2.t{position:absolute;left:96px;right:96px;top:64px;margin:0;font-family:var(--font-head);font-size:var(--title-size);line-height:1.15;font-weight:700;color:var(--ink)}
+.slide .body{position:absolute;left:96px;right:96px;top:220px;bottom:110px;font-size:var(--body-size);line-height:1.4;color:var(--ink2)}
+.ftr{position:absolute;left:96px;right:96px;bottom:34px;display:flex;justify-content:space-between;align-items:flex-end;gap:40px;font-size:var(--foot);color:var(--muted)}
+.ftr .cite{font-style:italic;max-width:1500px}
+.ftr .pg b{color:var(--ink2)}
+
+/* title slide */
+.slide.title{background:var(--bg)}
+.slide.title h1{position:absolute;left:120px;right:120px;top:300px;margin:0;font-family:var(--font-head);font-size:72px;line-height:1.15;color:var(--ink)}
+.slide.title .sub{position:absolute;left:120px;right:120px;top:560px;font-size:32px;color:var(--ink2)}
+.slide.title .who{position:absolute;left:120px;bottom:140px;font-size:34px;font-weight:700;color:var(--primary)}
+.slide.title .who span{display:block;font-weight:400;font-size:26px;color:var(--muted);margin-top:6px}
+
+/* building blocks */
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:56px;height:100%}
+.cols.wide-left{grid-template-columns:1.4fr 1fr}
+.fig{position:relative;margin:0}
+.fig .credit{font-size:var(--foot);color:var(--muted);margin-top:8px}
+.big{font-size:96px;font-weight:700;line-height:1;color:var(--int)}
+.big-label{font-size:var(--small);color:var(--muted);margin-top:8px}
+ul.pts{margin:0;padding-left:1.1em} ul.pts li{margin:.35em 0}
+table.tbl{border-collapse:collapse;font-size:24px;width:100%}
+table.tbl th,table.tbl td{border-bottom:1px solid var(--line);padding:10px 14px;text-align:left}
+table.tbl th{color:var(--muted);font-weight:700;font-size:20px}
+.refs{font-size:20px;line-height:1.45;color:var(--ink2);padding-left:1.4em}
+.refs li{margin:.4em 0}
+
+/* Kaplan–Meier (or any large SVG) wipe reveal: see medical-figures/motion.md */
+.km{position:relative}
+.km svg,.km .wipe,.km .wipe-in{position:absolute;left:0;top:0;width:100%;height:100%}
+.km svg{overflow:visible}
+.km .wipe{overflow:hidden;transform:translateX(var(--wipe-from,-71%));will-change:transform}
+.km .wipe-in{transform:translateX(var(--wipe-back,71%));will-change:transform}
+.slide.play .km .wipe,.slide.play .km .wipe-in{transform:none;transition:transform 2.4s cubic-bezier(.45,.05,.3,1) .55s}
+
+/* presenter tools */
+#ink,#laser{position:absolute;left:0;top:0;width:1920px;height:1080px;pointer-events:none;z-index:40}
+body.t-circle #ink,body.t-pen #ink{pointer-events:auto;cursor:crosshair}
+body.t-laser #stage{cursor:none}
+body.idle.t-none #stage{cursor:none}
+#tools{position:fixed;left:16px;bottom:16px;z-index:60;display:flex;align-items:center;gap:4px;padding:6px;background:rgba(255,255,255,.97);border:1px solid #C9C9C9;border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.25);transition:opacity .35s;font-family:Arial,sans-serif}
+body.idle #tools{opacity:0}
+#tools:hover{opacity:1 !important}
+#tools button{width:44px;height:44px;border:0;border-radius:10px;background:transparent;color:#333;display:grid;place-items:center;cursor:pointer;padding:0}
+#tools button:hover{background:#EEF3F6}
+#tools button.on{background:var(--primary);color:#fff}
+#tools button svg{width:22px;height:22px}
+#tools .sw{width:22px;height:22px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 0 1px #999}
+#tools .vr{width:1px;height:28px;background:#D0D0D0;margin:0 4px}
+#tools .pgc{font-size:14px;color:#555;padding:0 8px;min-width:54px;text-align:center}
+#notes{position:fixed;right:16px;bottom:80px;width:min(640px,46vw);max-height:56vh;overflow:auto;z-index:55;background:rgba(20,24,32,.95);color:#EEF2F8;border-radius:14px;padding:18px 22px;font-size:17px;line-height:1.55;display:none;box-shadow:0 10px 30px rgba(0,0,0,.4)}
+#notes.on{display:block}
+#notes .h{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:#9FB0C8;margin-bottom:8px}
+.notes{display:none}
+@media print{html,body{overflow:visible;background:#fff}#stage{position:relative;left:0;top:0;transform:none!important}#tools,#notes{display:none}}
+</style>
+</head>
+<body class="t-none" data-cite="">
+<div id="stage">
+
+<!-- ===== SLIDES: replace everything between the markers ===== -->
+<section class="slide title" data-name="Title">
+  <h1 class="a-in" style="--d:.1s">Assertion-style talk title</h1>
+  <div class="sub a-in" style="--d:.3s">Event · date</div>
+  <div class="who a-in" style="--d:.5s">Presenter name<span>Department, institution</span></div>
+  <aside class="notes">Opening line.</aside>
+</section>
+
+<section class="slide" data-name="Example">
+  <h2 class="t a-in">Each title states the slide's conclusion as a full sentence</h2>
+  <div class="body">
+    <div class="cols wide-left">
+      <figure class="fig a-in" style="--d:.2s"><!-- figure (inline SVG) --><div class="credit">Source: Author A, et al. Journal Year; Fig. 1</div></figure>
+      <div class="a-in" style="--d:.35s"><ul class="pts"><li>Evidence point</li><li data-frag="1" class="frag">Revealed on click</li></ul></div>
+    </div>
+  </div>
+  <aside class="notes">What to say, and the cue for the click.</aside>
+</section>
+<!-- ===== END SLIDES ===== -->
+
+<canvas id="ink"></canvas>
+<canvas id="laser"></canvas>
+</div>
+
+<div id="tools" aria-label="Presenter tools">
+  <button data-tool="none" class="on" title="Pointer · Esc"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M5 3l14 7-6 2-2 6z"/></svg></button>
+  <button data-tool="laser" title="Laser · L"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="3.2" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg></button>
+  <button data-tool="circle" title="Circle · C"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16.5 4.8C14.9 4 13.1 3.7 11.3 3.9 6.6 4.4 3 7.9 3.4 12s4.8 7.4 9.5 7.1 8.2-3.8 7.8-7.9c-.2-2.1-1.4-3.9-3.2-5.1"/></svg></button>
+  <button data-tool="pen" title="Pen · P"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"><path d="M4 20l1-5L16 4l4 4L9 19z"/><path d="M14 6l4 4"/></svg></button>
+  <button data-act="color" title="Ink colour"><span class="sw" id="sw"></span></button>
+  <button data-act="undo" title="Undo · Z"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14L4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>
+  <button data-act="clear" title="Erase this slide · E"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button>
+  <span class="vr"></span>
+  <button data-act="prev" title="Previous · ←"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <span class="pgc" id="pgc"></span>
+  <button data-act="next" title="Next · →"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  <span class="vr"></span>
+  <button data-act="notes" title="Speaker notes · N"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h10l4 4v14H5z"/><path d="M9 11h6M9 15h6"/></svg></button>
+  <button data-act="fs" title="Fullscreen · F"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+</div>
+<div id="notes"><div class="h" id="notesH"></div><div id="notesB"></div></div>
+
+<script>
+/* ---- per-deck code (figures, charts) goes here, before the engine ---- */
+</script>
+<script>
+(() => {
+const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const stage = $('#stage'), slides = $$('.slide');
+const vi = (n, d = 0) => n.toLocaleString(document.documentElement.lang || 'en', {minimumFractionDigits: d, maximumFractionDigits: d});
+const ease = p => 1 - Math.pow(1 - p, 3);
+
+let scale = 1;
+function fit() { scale = Math.min(innerWidth / 1920, innerHeight / 1080); stage.style.transform = `translate(-50%,-50%) scale(${scale})`; sizeCanvases(); }
+
+/* footer: citation (per slide data-cite overrides body data-cite) + page number; title slides get none */
+const deckCite = document.body.dataset.cite || '';
+slides.forEach((s, i) => {
+  if (s.classList.contains('title') || s.dataset.footer === 'none' || $('.ftr', s)) return;
+  const f = document.createElement('div'); f.className = 'ftr';
+  const cite = s.dataset.cite ?? deckCite;
+  f.innerHTML = `<span class="cite"></span><span class="pg"><b>${i + 1}</b> / ${slides.length}</span>`;
+  $('.cite', f).textContent = cite; s.appendChild(f);
+});
+
+/* count-up numbers: <span data-count="82.2" data-dec="1" data-suf="%"> */
+function countUp(e, dur = 1400, delay = 0) {
+  const to = parseFloat(e.dataset.count), d = +(e.dataset.dec || 0), suf = e.dataset.suf || '';
+  e.textContent = vi(0, d) + suf; const t0 = performance.now() + delay;
+  const tick = now => { const p = Math.min(1, Math.max(0, (now - t0) / dur)); e.textContent = vi(to * ease(p), d) + suf; if (p < 1) e._raf = requestAnimationFrame(tick); };
+  cancelAnimationFrame(e._raf); e._raf = requestAnimationFrame(tick);
+}
+
+/* ---- ink: circle, pen; laser ---- */
+const ink = $('#ink'), ictx = ink.getContext('2d'), las = $('#laser'), lctx = las.getContext('2d');
+const COLORS = ['#E8141B', '#0F5E7A', '#1B2430', '#F28C28'];
+let colorIx = 0, tool = 'none', K = 1, live = null, cur = -1, step = 0;
+const marks = {};
+$('#sw').style.background = COLORS[0];
+function sizeCanvases() {
+  K = Math.min(2.5, scale * (devicePixelRatio || 1));
+  [ink, las].forEach(c => { c.width = Math.round(1920 * K); c.height = Math.round(1080 * K); });
+  ictx.setTransform(K, 0, 0, K, 0, 0); lctx.setTransform(K, 0, 0, K, 0, 0); redraw();
+}
+const toStage = e => { const r = stage.getBoundingClientRect(); return [(e.clientX - r.left) / r.width * 1920, (e.clientY - r.top) / r.height * 1080]; };
+function strokeShape(m) {
+  ictx.strokeStyle = m.c; ictx.lineWidth = 6; ictx.lineCap = 'round'; ictx.lineJoin = 'round';
+  ictx.shadowColor = 'rgba(0,0,0,.18)'; ictx.shadowBlur = 3; ictx.beginPath();
+  if (m.t === 'ell') {
+    const cx = m.x + m.w / 2, cy = m.y + m.h / 2, rx = Math.max(4, m.w / 2), ry = Math.max(4, m.h / 2), a0 = -2.1, a1 = a0 + Math.PI * 2 + .45;
+    for (let a = a0; a <= a1; a += .04) { const k = 1 + .045 * Math.sin((a - a0) * 1.5), px = cx + rx * k * Math.cos(a), py = cy + ry * k * Math.sin(a); a === a0 ? ictx.moveTo(px, py) : ictx.lineTo(px, py); }
+  } else {
+    const p = m.p; if (p.length < 2) ictx.arc(p[0][0], p[0][1], 3, 0, 7);
+    else { ictx.moveTo(p[0][0], p[0][1]); for (let i = 1; i < p.length - 1; i++) ictx.quadraticCurveTo(p[i][0], p[i][1], (p[i][0] + p[i + 1][0]) / 2, (p[i][1] + p[i + 1][1]) / 2); ictx.lineTo(p[p.length - 1][0], p[p.length - 1][1]); }
+  }
+  ictx.stroke(); ictx.shadowBlur = 0;
+}
+function redraw() { ictx.clearRect(0, 0, 1920, 1080); (marks[cur] || []).forEach(strokeShape); if (live) strokeShape(live); }
+ink.addEventListener('pointerdown', e => {
+  if (tool !== 'circle' && tool !== 'pen') return; e.preventDefault(); ink.setPointerCapture(e.pointerId);
+  const [x, y] = toStage(e); live = tool === 'circle' ? {t: 'ell', c: COLORS[colorIx], x0: x, y0: y, x, y, w: 0, h: 0} : {t: 'pen', c: COLORS[colorIx], p: [[x, y]]};
+});
+ink.addEventListener('pointermove', e => {
+  if (!live) return; const [x, y] = toStage(e);
+  if (live.t === 'ell') { live.x = Math.min(x, live.x0); live.y = Math.min(y, live.y0); live.w = Math.abs(x - live.x0); live.h = Math.abs(y - live.y0); } else live.p.push([x, y]);
+  redraw();
+});
+const endStroke = () => { if (!live) return; if (live.t === 'pen' || live.w > 8 || live.h > 8) (marks[cur] = marks[cur] || []).push(live); live = null; redraw(); };
+ink.addEventListener('pointerup', endStroke); ink.addEventListener('pointercancel', endStroke);
+ink.addEventListener('click', e => e.stopPropagation());
+let trail = [], lraf = 0, lastPt = null;
+function laserFrame(now) {
+  lctx.clearRect(0, 0, 1920, 1080); trail = trail.filter(p => now - p[2] < 260);
+  lctx.lineCap = 'round';
+  for (let i = 1; i < trail.length; i++) { const a = 1 - (now - trail[i][2]) / 260; lctx.strokeStyle = `rgba(255,30,30,${(a * .55).toFixed(3)})`; lctx.lineWidth = 3 + 7 * a; lctx.beginPath(); lctx.moveTo(trail[i - 1][0], trail[i - 1][1]); lctx.lineTo(trail[i][0], trail[i][1]); lctx.stroke(); }
+  if (lastPt && tool === 'laser') { const [x, y] = lastPt, g = lctx.createRadialGradient(x, y, 0, x, y, 26);
+    g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(.18, 'rgba(255,40,40,1)'); g.addColorStop(.45, 'rgba(255,0,0,.45)'); g.addColorStop(1, 'rgba(255,0,0,0)');
+    lctx.fillStyle = g; lctx.beginPath(); lctx.arc(x, y, 26, 0, 7); lctx.fill(); }
+  lraf = (tool === 'laser' && (trail.length || lastPt)) ? requestAnimationFrame(laserFrame) : 0;
+}
+addEventListener('pointermove', e => {
+  wake(); if (tool !== 'laser') return;
+  const r = stage.getBoundingClientRect();
+  if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom || (e.target.closest && e.target.closest('#tools,#notes'))) { lastPt = null; return; }
+  const p = toStage(e); lastPt = p; trail.push([p[0], p[1], performance.now()]); if (trail.length > 40) trail.shift();
+  if (!lraf) lraf = requestAnimationFrame(laserFrame);
+});
+function setTool(t) {
+  tool = tool === t && t !== 'none' ? 'none' : t;
+  document.body.classList.remove('t-none', 't-laser', 't-circle', 't-pen'); document.body.classList.add('t-' + tool);
+  $$('#tools [data-tool]').forEach(b => b.classList.toggle('on', b.dataset.tool === tool));
+  if (tool !== 'laser') { lastPt = null; trail = []; lctx.clearRect(0, 0, 1920, 1080); }
+}
+function act(a) {
+  if (a === 'color') { colorIx = (colorIx + 1) % COLORS.length; $('#sw').style.background = COLORS[colorIx]; if (tool === 'none' || tool === 'laser') setTool('circle'); }
+  else if (a === 'undo') { (marks[cur] || []).pop(); redraw(); }
+  else if (a === 'clear') { marks[cur] = []; redraw(); }
+  else if (a === 'prev') prev(); else if (a === 'next') next();
+  else if (a === 'notes') $('#notes').classList.toggle('on');
+  else if (a === 'fs') document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen();
+}
+$('#tools').addEventListener('click', e => { const b = e.target.closest('button'); if (!b) return; e.stopPropagation(); b.dataset.tool ? setTool(b.dataset.tool) : act(b.dataset.act); b.blur(); });
+let idleT; function wake() { document.body.classList.remove('idle'); clearTimeout(idleT); idleT = setTimeout(() => document.body.classList.add('idle'), 2500); }
+
+/* ---- navigation ---- */
+const hooks = {};               // hooks[slideIndex] = {start(), stop()} registered by deck code via window.deckHooks
+Object.assign(hooks, window.deckHooks || {});
+/* steps: data-frag="n" elements fade in at step n; a [data-scene="N"] element (a mechanism
+   animation) gets class s0…sN so its CSS can move parts step by step */
+const maxStep = s => Math.max(0, ...$$('[data-frag]', s).map(e => +e.dataset.frag), ...$$('[data-scene]', s).map(e => +e.dataset.scene));
+function applyFrags() {
+  const s = slides[cur];
+  $$('[data-frag]', s).forEach(e => { e.classList.add('frag'); e.classList.toggle('on', +e.dataset.frag <= step); });
+  $$('[data-scene]', s).forEach(e => { [...e.classList].filter(c => /^s\d+$/.test(c)).forEach(c => e.classList.remove(c)); e.classList.add('s' + step); });
+  document.dispatchEvent(new CustomEvent('deck:step', {detail: {slide: cur, step}}));
+}
+function show(i, allFrags = false, force = false) {
+  if ((i === cur && !force) || i < 0 || i >= slides.length) return;
+  const old = slides[cur];
+  if (old && old !== slides[i]) { old.classList.remove('active'); clearTimeout(old._t); hooks[cur]?.stop?.();
+    old._t = setTimeout(() => { if (!old.classList.contains('active')) old.classList.remove('play'); }, 450); }
+  cur = i; const s = slides[i];
+  clearTimeout(s._t); s.classList.remove('play'); void s.offsetWidth; s.classList.add('active', 'play');
+  step = allFrags ? maxStep(s) : 0; applyFrags();
+  $$('[data-count]', s).forEach((e, k) => countUp(e, 1400, 450 + k * 120));
+  hooks[i]?.start?.();
+  live = null; redraw();
+  $('#pgc').textContent = `${i + 1} / ${slides.length}`;
+  history.replaceState(null, '', '#' + (i + 1));
+  const nt = $('.notes', s); $('#notesH').textContent = `${i + 1}/${slides.length} · ${s.dataset.name || ''}`; $('#notesB').textContent = nt ? nt.textContent.trim() : '';
+}
+function next() { const s = slides[cur]; if (step < maxStep(s)) { step++; applyFrags(); return; } show(cur + 1); }
+function prev() { if (step > 0) { step--; applyFrags(); return; } show(cur - 1, true); }
+addEventListener('keydown', e => {
+  if (e.ctrlKey || e.metaKey || e.altKey) return; const k = e.key.toLowerCase();
+  if (['ArrowRight', 'PageDown', ' ', 'Enter', 'ArrowDown'].includes(e.key)) { e.preventDefault(); next(); }
+  else if (['ArrowLeft', 'PageUp', 'Backspace', 'ArrowUp'].includes(e.key)) { e.preventDefault(); prev(); }
+  else if (e.key === 'Home') show(0); else if (e.key === 'End') show(slides.length - 1);
+  else if (e.key === 'Escape') setTool('none');
+  else if (k === 'l') setTool('laser'); else if (k === 'c') setTool('circle'); else if (k === 'p') setTool('pen');
+  else if (k === 'e') act('clear'); else if (k === 'z') act('undo'); else if (k === 'f') act('fs'); else if (k === 'n') act('notes');
+  else if (k === 'r') show(cur, false, true);
+  else if (/^[1-9]$/.test(e.key) && +e.key <= slides.length) show(+e.key - 1);
+});
+stage.addEventListener('click', e => { if (tool === 'circle' || tool === 'pen' || e.target.closest('[data-noclick]')) return;
+  const r = stage.getBoundingClientRect(); (e.clientX - r.left) > r.width * .3 ? next() : prev(); });
+let tx = null; addEventListener('touchstart', e => { if (tool === 'none' || tool === 'laser') tx = e.touches[0].clientX; }, {passive: true});
+addEventListener('touchend', e => { if (tx == null) return; const dx = e.changedTouches[0].clientX - tx; if (Math.abs(dx) > 50) dx < 0 ? next() : prev(); tx = null; });
+
+/* API for scripts/check_render.py and for per-deck code */
+window.deck = {
+  get count() { return slides.length; }, get current() { return cur; },
+  go: (i, allFrags = false) => show(i, allFrags, true),
+  /* jump every animation to its end; looping motion graphics (infinite CSS animations)
+     pause on their poster frame: data-poster="0.55" on an ancestor = 55 % of one loop */
+  finish: () => { document.getAnimations().forEach(a => {
+      try { a.finish(); } catch (_) {
+        const t = a.effect.getTiming(), host = a.effect.target?.closest?.('[data-poster]');
+        a.pause(); a.currentTime = (host ? parseFloat(host.dataset.poster) : 0.5) * t.duration;  // keeps staggered delays
+      } });
+    $$('[data-count]', slides[cur]).forEach(e => { cancelAnimationFrame(e._raf);
+      e.textContent = vi(parseFloat(e.dataset.count), +(e.dataset.dec || 0)) + (e.dataset.suf || ''); }); },
+  hooks
+};
+addEventListener('resize', fit); fit(); wake();
+show(Math.min(slides.length - 1, Math.max(0, (parseInt(location.hash.slice(1)) || 1) - 1)));
+})();
+</script>
+</body>
+</html>

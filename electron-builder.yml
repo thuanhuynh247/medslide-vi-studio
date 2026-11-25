@@ -1,0 +1,42 @@
+appId: com.huynhanhthuan.medslidevi
+productName: MedSlide VI Studio
+copyright: Copyright © 2026 Huynh Anh Thuan
+directories:
+  output: release
+  buildResources: build
+files:
+  - electron/**/*
+  - server/**/*
+  - app/**/*
+  - assets/**/*
+  - licenses/**/*
+  - build/icon.png
+  - test/fixtures/sample-project.json
+  - package.json
+  - LICENSE
+  - NOTICE.md
+asar: true
+asarUnpack:
+  - node_modules/pdfjs-dist/**/*
+win:
+  icon: build/icon.ico
+  signAndEditExecutable: false
+  target:
+    - target: nsis
+      arch: [x64]
+    - target: portable
+      arch: [x64]
+nsis:
+  artifactName: MedSlide-VI-Studio-Setup-${arch}.${ext}
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: MedSlide VI Studio
+  uninstallDisplayName: MedSlide VI Studio
+  installerIcon: build/icon.ico
+  uninstallerIcon: build/icon.ico
+portable:
+  artifactName: MedSlide-VI-Studio-Portable-${arch}.${ext}
+publish: null

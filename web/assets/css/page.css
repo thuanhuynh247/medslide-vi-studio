@@ -1,0 +1,39 @@
+/* page.css — phần riêng của trang MedSlide VI Studio (dựa trên tokens/site của PDF Layout VI) */
+.hero .wrap { align-items: center; }
+.shot { margin: 0; display: grid; gap: var(--sp-3); min-width: 0; }
+.shot img { border-radius: var(--radius-m); border: 1px solid var(--rule); box-shadow: var(--shadow-page); background: var(--paper); }
+.shot figcaption { color: var(--ink-2); }
+.flow8 { list-style: none; padding: 0; margin: 0 0 var(--sp-7); display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--sp-3); counter-reset: s; }
+.flow8 li { counter-increment: s; background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-m); padding: var(--sp-4); display: grid; gap: 4px; position: relative; }
+.flow8 li::before { content: counter(s); font: 700 var(--fs-xs)/1 var(--font-sans); color: var(--on-teal); background: var(--teal); width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 4px; }
+.flow8 li b { font-size: var(--fs-md); }
+.flow8 li span { color: var(--ink-2); font-size: var(--fs-sm); line-height: 1.45; }
+.flow8 li.gate { border: 2px dashed var(--teal); }
+.pair { display: grid; gap: var(--sp-6); }
+@media (min-width: 900px) { .pair { grid-template-columns: 1fr 1fr; } }
+.tags { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.tags li { background: var(--paper); border: 1px solid var(--rule); border-radius: 999px; padding: 8px 14px; font-size: var(--fs-sm); font-weight: 500; }
+.wrap.two { display: grid; gap: var(--sp-7); align-items: start; }
+@media (min-width: 1000px) { .wrap.two { grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr); } .wrap.two .section-head { margin-bottom: 0; } }
+.checks { list-style: none; padding: 0; margin: var(--sp-3) 0 0; display: grid; gap: var(--sp-3); }
+.checks li { padding-left: var(--sp-5); position: relative; color: var(--ink-2); line-height: 1.55; }
+.checks li::before { content: ""; position: absolute; left: 0; top: .55em; width: 10px; height: 10px; border-radius: 2px; background: var(--teal); }
+.checks b { color: var(--ink); }
+.checks code { font-family: var(--font-mono); font-size: .85em; background: #fff3c4; padding: 1px 5px; border-radius: 3px; }
+.gallery { display: grid; gap: var(--sp-5); grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.gallery figure { margin: 0; display: grid; gap: var(--sp-2); }
+.gallery img { border-radius: var(--radius-m); border: 1px solid var(--rule); box-shadow: var(--shadow-page); aspect-ratio: 16/9; object-fit: cover; }
+.gallery figcaption { font-size: var(--fs-sm); color: var(--ink-2); }
+.gallery figcaption b { color: var(--ink); }
+.demo-card { display: flex; flex-direction: column; justify-content: center; gap: var(--sp-2); padding: var(--sp-5); border-radius: var(--radius-m); background: var(--deep); color: var(--on-deep); text-decoration: none; aspect-ratio: 16/9; }
+.demo-card b { font-size: var(--fs-lg); }
+.demo-card span { color: color-mix(in srgb, var(--on-deep) 80%, transparent); font-size: var(--fs-sm); line-height: 1.5; }
+.demo-card .go { color: var(--on-deep-accent); font-weight: 700; }
+.demo-card:hover { text-decoration: none; filter: brightness(1.1); }
+.ai-table th, .ai-table td { text-align: left; }
+.credits { display: grid; gap: var(--sp-4); }
+@media (min-width: 900px) { .credits { grid-template-columns: repeat(3, 1fr); } }
+.credits a { background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-m); padding: var(--sp-5); display: grid; gap: var(--sp-2); align-content: start; color: var(--ink-2); text-decoration: none; line-height: 1.55; font-size: var(--fs-sm); }
+.credits a:hover { border-color: var(--teal); }
+.credits b { color: var(--ink); font-size: var(--fs-lg); }
+.credits .who { color: var(--teal-ink); font-weight: 600; }

@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MedSlide VI Studio · Làm slide Y khoa bằng AI, có bằng chứng</title>
+<meta name="description" content="Ứng dụng Windows miễn phí giúp bác sĩ làm slide grand rounds, journal club, ca lâm sàng, bài giảng: AI hỏi trước, tra PubMed thật, kiểm từng con số, xuất PowerPoint sửa được, PDF và HTML trình chiếu.">
+<meta name="theme-color" content="#eef2f2">
+<link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="MedSlide VI Studio: slide Y khoa có bằng chứng, làm bằng AI">
+<meta property="og:description" content="Hỏi trước, tra PubMed thật, kiểm từng con số, xuất PPTX/PDF/HTML. Miễn phí cho Windows.">
+<meta property="og:image" content="assets/img/theme-lam-sang.webp">
+<link rel="preload" href="assets/fonts/pjs-bold.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/site.css">
+<link rel="stylesheet" href="assets/css/page.css">
+<script src="config.js" defer></script>
+<script src="assets/js/main.js" defer></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="brand" href="./" aria-label="MedSlide VI Studio, về trang chủ">
+      <img src="assets/img/favicon.svg" alt="" width="26" height="26">
+      <span>MedSlide VI Studio <span class="mono" data-version>v1.0.0</span></span>
+    </a>
+    <nav class="nav" aria-label="Mục lục">
+      <a href="#quy-trinh">Quy trình</a>
+      <a href="#kiem-dinh">Kiểm định</a>
+      <a href="#phong-cach">Phong cách</a>
+      <a href="#cai-dat">Cài đặt</a>
+      <a href="#hoi-dap">Hỏi đáp</a>
+    </nav>
+    <a class="btn btn-primary btn-sm" data-dl-setup href="https://github.com/thuanhuynh247/medslide-vi-studio/releases/latest">Tải cho Windows</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero">
+    <div class="wrap">
+      <div class="hero-copy">
+        <p class="eyebrow">Ứng dụng Windows · miễn phí · mã nguồn mở</p>
+        <h1>Slide Y khoa có bằng chứng, AI làm, bạn duyệt</h1>
+        <p class="lead">Nhập chủ đề, AI hỏi bạn một lượt rồi tra PubMed thật và lập dàn ý với tiêu đề là câu kết luận. Từ dàn ý đã duyệt, AI dựng slide và ghi lại nguồn của từng con số. Trước khi bạn lên bục, ứng dụng tự kiểm: số không có nguồn, PMID sai, thông tin người bệnh bị lộ, câu chữ kiểu “máy làm”.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" data-dl-setup href="https://github.com/thuanhuynh247/medslide-vi-studio/releases/latest">Tải bản cài (.exe)</a>
+          <a class="btn btn-ghost" data-dl-portable href="https://github.com/thuanhuynh247/medslide-vi-studio/releases/latest">Bản chạy ngay, không cài</a>
+          <a class="btn btn-ghost" href="demo/dapa-hf.html" target="_blank" rel="noopener">Xem slide mẫu</a>
+        </div>
+        <p class="meta-row"><span>Windows 10, 11 (64-bit)</span><span>Claude Code, Codex, Gemini, Ollama</span><span>Xuất PPTX · PDF · HTML</span></p>
+      </div>
+      <figure class="shot shot-hero">
+        <img src="assets/img/app-slides.webp" width="1600" height="1000" alt="Màn hình chỉnh slide của MedSlide VI Studio: danh sách slide bên trái, xem trước sơ đồ thử nghiệm ngẫu nhiên ở giữa, ô sửa nội dung bên phải.">
+        <figcaption class="label">Chỉnh từng slide: sửa tay, hoặc gõ yêu cầu để AI sửa</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" id="quy-trinh" aria-labelledby="qt-h">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">8 bước, có 2 cổng chờ bạn duyệt</p>
+        <h2 id="qt-h">Hỏi trước, làm sau, kiểm cuối</h2>
+        <p>AI thông thường làm slide rất nhanh, nhưng tự quyết thay bạn, lấy số từ trí nhớ và hay trộn kết cục này sang kết cục khác. Ở đây, bước nào cũng để lại dữ liệu bạn xem lại được.</p>
+      </div>
+      <ol class="flow8">
+        <li><b>Đề bài</b><span>Chủ đề, loại bài, khán giả, thời lượng, tải PDF bài báo hoặc phác đồ</span></li>
+        <li><b>Phỏng vấn</b><span>Tối đa 6 câu, câu nào cũng có lựa chọn khuyến nghị kèm lý do</span></li>
+        <li><b>Bằng chứng</b><span>Tra PubMed trực tiếp, lấy toàn văn Europe PMC, thêm theo PMID/DOI</span></li>
+        <li class="gate"><b>Dàn ý</b><span>Tiêu đề khẳng định, số liệu cần có, thời gian. Cổng 1: bạn duyệt</span></li>
+        <li class="gate"><b>Phong cách</b><span>Chọn bằng mắt giữa 5 phong cách. Cổng 2: bấm dựng</span></li>
+        <li><b>Slide</b><span>16 bố cục y khoa, kèm sổ ghi nguồn cho từng con số</span></li>
+        <li><b>Kiểm định</b><span>Số liệu, PMID, PHI, slop; thêm một lượt AI phản biện độc lập</span></li>
+        <li><b>Xuất file</b><span>PowerPoint sửa được, PDF 16:9, HTML có bút laser</span></li>
+      </ol>
+      <div class="pair">
+        <figure class="shot"><img src="assets/img/app-plan.webp" width="1600" height="1000" loading="lazy" alt="Bảng dàn ý: mỗi dòng một slide với bố cục, tiêu đề khẳng định, số liệu cần và số phút."><figcaption class="label">Dàn ý là hợp đồng: duyệt xong mới dựng</figcaption></figure>
+        <figure class="shot"><img src="assets/img/app-style.webp" width="1600" height="1000" loading="lazy" alt="Năm ô xem trước phong cách với cùng một slide kết quả."><figcaption class="label">Chọn phong cách bằng cách nhìn, không đoán theo tên</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="bo-cuc" aria-labelledby="bc-h">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Chọn hình theo loại bằng chứng</p>
+        <h2 id="bc-h">16 bố cục viết riêng cho ngành Y</h2>
+        <p>Thiết kế thử nghiệm thì vẽ thành sơ đồ, không phải gạch đầu dòng. So sánh hai nhánh thì dùng biểu đồ một trục. Diễn tiến ca bệnh thì đặt trên dòng thời gian, dùng ngày tương đối N0, N3. Khuyến cáo giữ nguyên lời gốc, kèm class và level.</p>
+      </div>
+      <ul class="tags">
+        <li>Sơ đồ thử nghiệm (R 1:1)</li><li>Lưu đồ CONSORT / PRISMA</li><li>Cây quyết định phác đồ</li><li>Biểu đồ cột hai nhánh</li><li>Con số lớn</li><li>Dòng thời gian ca bệnh</li><li>Bảng khuyến cáo class · level</li><li>Bảng đặc điểm nền</li><li>Hai cột</li><li>Câu hỏi nhanh có đáp án</li><li>Thông điệp mang về</li><li>Chuyển chương</li><li>Hình ảnh</li><li>Gạch đầu dòng</li><li>Tiêu đề</li><li>Tài liệu tham khảo Vancouver</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" id="kiem-dinh" aria-labelledby="kd-h">
+    <div class="wrap two">
+      <div class="section-head">
+        <p class="eyebrow">Chạy trên chính slide của bạn</p>
+        <h2 id="kd-h">Kiểm trước khi lên bục</h2>
+        <p>Phiếu kiểm định chia lỗi chặn và lưu ý. Bấm vào một lỗi là nhảy tới đúng slide đó.</p>
+        <ul class="checks">
+          <li><b>Số không có nguồn.</b> Mỗi con số trên slide phải có trong sổ ghi nguồn, kèm câu trích nguyên văn. Phát hiện cả trường hợp số đúng nhưng nằm sai slide, ví dụ HR của RFS bị đặt dưới DMFS.</li>
+          <li><b>Tài liệu thật.</b> PMID đối chiếu PubMed, DOI đối chiếu Crossref: tiêu đề, năm, tác giả đầu. PMID chỉ được lấy từ lượt tra cứu, không lấy từ trí nhớ AI.</li>
+          <li><b>Cường điệu.</b> Tiêu đề nói “giảm”, “cải thiện” trong khi KTC 95% chứa 1 hoặc p ≥ 0,05 thì bị chặn.</li>
+          <li><b>Lộ thông tin người bệnh.</b> Bắt họ tên, ngày điều trị, số điện thoại, mã bệnh án, số BHYT, địa chỉ, theo mẫu tiếng Việt.</li>
+          <li><b>Dấu hiệu “máy làm”.</b> 21 mẫu S01–S21 của Grand Rounds: nhãn nhỏ trên tiêu đề, lời nhắc “bấm tiếp” trên slide, emoji, sáo ngữ, tiêu đề chủ đề kiểu “Kết quả”, slide quá 40 chữ.</li>
+          <li><b>Ô còn trống.</b> Khi thiếu số, AI ghi <code>[CẦN BỔ SUNG: …]</code> thay vì đoán. Ô này được tô vàng trên slide, và còn ô nào thì phiếu kiểm định chưa cho đạt.</li>
+        </ul>
+      </div>
+      <figure class="shot"><img src="assets/img/app-audit.webp" width="1600" height="1000" loading="lazy" alt="Phiếu kiểm định: CHƯA ĐẠT, danh sách lỗi chặn theo từng slide như số chưa có nguồn, ô cần bổ sung."><figcaption class="label">Bài mẫu DAPA-HF: 7 lỗi chặn vì còn ô cần bổ sung và số chưa ghi nguồn</figcaption></figure>
+    </div>
+  </section>
+
+  <section class="section" id="phong-cach" aria-labelledby="pc-h">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Font có sẵn trên Windows, đủ dấu tiếng Việt</p>
+        <h2 id="pc-h">Năm phong cách, cùng một kỷ luật</h2>
+        <p>Không lưới thẻ KPI, không chữ phát sáng, không icon trang trí. Màu đi theo nhánh can thiệp và nhánh chứng, giống nhau trên mọi slide. Thân bài không dưới 24 px ở khổ 1920×1080.</p>
+      </div>
+      <div class="gallery">
+        <figure><img src="assets/img/theme-lam-sang.webp" width="1600" height="900" loading="lazy" alt="Phong cách Lâm sàng: nền trắng, xanh teal, sơ đồ thử nghiệm."><figcaption><b>Lâm sàng</b> · grand rounds, journal club</figcaption></figure>
+        <figure><img src="assets/img/theme-hoi-nghi.webp" width="1600" height="900" loading="lazy" alt="Phong cách Hội nghị tối: nền xanh đêm, con số lớn màu cam."><figcaption><b>Hội nghị tối</b> · hội trường lớn</figcaption></figure>
+        <figure><img src="assets/img/theme-hoc-thuat.webp" width="1600" height="900" loading="lazy" alt="Phong cách Học thuật: nền kem, tiêu đề có chân, bảng khuyến cáo."><figcaption><b>Học thuật</b> · bảo vệ luận án</figcaption></figure>
+        <figure><img src="assets/img/theme-benh-vien.webp" width="1600" height="900" loading="lazy" alt="Phong cách Bệnh viện: dải tiêu đề xanh dương đậm, biểu đồ cột."><figcaption><b>Bệnh viện</b> · sinh hoạt khoa học nội viện</figcaption></figure>
+        <figure><img src="assets/img/theme-cong-dong.webp" width="1600" height="900" loading="lazy" alt="Phong cách Cộng đồng: xanh lá, chữ to, cây quyết định."><figcaption><b>Cộng đồng</b> · giáo dục người bệnh</figcaption></figure>
+        <a class="demo-card" href="demo/dapa-hf.html" target="_blank" rel="noopener"><b>Mở slide mẫu HTML</b><span>15 slide journal club DAPA-HF. Phím ← → để chuyển, L bật bút laser, C khoanh, N xem ghi chú.</span><span class="go">Trình chiếu →</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="ai" aria-labelledby="ai-h">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Không cần cài skill, plugin hay Python</p>
+        <h2 id="ai-h">Chạy bằng AI bạn đã có</h2>
+        <p>Ứng dụng gọi thẳng công cụ AI dòng lệnh đã đăng nhập trên máy, nên dùng luôn gói tài khoản bạn đang trả tiền. Có thể đặt một nền tảng dự phòng để tự chuyển sang khi nền tảng chính lỗi.</p>
+      </div>
+      <div class="matrix-wrap"><table class="matrix ai-table">
+        <thead><tr><th>Nền tảng</th><th>Cách kết nối</th><th>Ghi chú</th></tr></thead>
+        <tbody>
+          <tr><th>Claude Code CLI</th><td>Đăng nhập Claude Pro/Max</td><td>Viết tiếng Việt y khoa tốt, nên dùng làm nền tảng chính</td></tr>
+          <tr><th>OpenAI Codex CLI</th><td>Đăng nhập ChatGPT Plus/Pro</td><td>Nên dùng cho lượt AI phản biện độc lập</td></tr>
+          <tr><th>Gemini CLI / Gemini API</th><td>Google AI Pro hoặc khóa AIza…</td><td>Khóa API có gói miễn phí</td></tr>
+          <tr><th>Antigravity, Muse, OpenCode, Copilot, Qwen</th><td>CLI tương ứng</td><td>Ứng dụng tự tìm CLI đã cài trên máy</td></tr>
+          <tr><th>Ollama</th><td>Chạy trên máy, không cần mạng</td><td>Dành cho ca bệnh có dữ liệu nhạy cảm</td></tr>
+          <tr><th>OpenRouter</th><td>Khóa sk-or-…</td><td>Trả tiền theo lượt dùng</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <section class="section" id="cai-dat" aria-labelledby="cd-h">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Khoảng năm phút</p>
+        <h2 id="cd-h">Cài trên Windows</h2>
+      </div>
+      <ol class="steps steps-wrap">
+        <li><div><h3>Tải và chạy file cài</h3><p>Bấm <strong>Tải bản cài</strong> ở đầu trang. Windows có thể hiện cảnh báo SmartScreen vì ứng dụng chưa có chứng thư ký số: bấm “More info”, rồi “Run anyway”. Bản portable chạy ngay mà không cần cài.</p></div><code>More info → Run anyway</code></li>
+        <li><div><h3>Kết nối AI</h3><p>Bấm ô <strong>Kết nối AI</strong> ở góc trái dưới. Chọn công cụ đã đăng nhập, hoặc bấm Cài, Đăng nhập ngay trong ứng dụng, hoặc dán khóa API. Bấm “Thử” để chắc AI trả lời được.</p></div><code>Kết nối AI → chọn → Thử → Lưu</code></li>
+        <li><div><h3>Mở bài mẫu hoặc làm bài mới</h3><p>Bấm “Mở bài mẫu DAPA-HF” để xem một bài hoàn chỉnh, hoặc “+ Bài trình bày mới” và làm theo 8 bước. Dự án được lưu trong thư mục Tài liệu của bạn.</p></div><code>Documents\MedSlide VI Studio\</code></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="nguon-goc" aria-labelledby="ng-h">
+    <div class="wrap">
+      <div class="section-head">
+        <p class="eyebrow">Đứng trên vai ba dự án mã nguồn mở (MIT)</p>
+        <h2 id="ng-h">Gộp ba bộ skill thành một ứng dụng</h2>
+        <p>Ba dự án dưới đây vốn là bộ kỹ năng phải cài vào Claude Code hay Codex. MedSlide VI Studio đóng gói phương pháp của cả ba vào một ứng dụng: người dùng không cần biết dòng lệnh.</p>
+      </div>
+      <div class="credits">
+        <a href="https://github.com/drtranquanghung91-vn/grand-rounds" target="_blank" rel="noopener"><b>Grand Rounds</b><span class="who">BS. Trần Quang Hưng</span><span>Phương pháp chính: phỏng vấn trước, công thức cốt truyện, ngữ pháp hình ảnh y khoa, sổ ghi nguồn cho số liệu, danh mục slop S01–S21, kiểm bằng chứng và PHI. Khung trình chiếu HTML dùng nguyên của dự án này.</span></a>
+        <a href="https://github.com/luonghaianh1208/2anh-studio" target="_blank" rel="noopener"><b>2Anh Studio</b><span class="who">Lương Hải Anh · dựa trên PPT Master của Hugo He</span><span>Quy tắc tiếng Việt cho AI, font đủ dấu, sàn cỡ chữ, hỏi một lượt trước khi làm, ô [CẦN BỔ SUNG] thay cho bịa, PowerPoint sửa được.</span></a>
+        <a href="https://github.com/zarazhangrui/frontend-slides" target="_blank" rel="noopener"><b>Frontend Slides</b><span class="who">Zara Zhang</span><span>Chọn phong cách bằng xem trước, preset có cá tính, vừa khung 16:9, chuyển động tiết chế.</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="hoi-dap" aria-labelledby="hd-h">
+    <div class="wrap">
+      <div class="section-head"><h2 id="hd-h">Hỏi đáp</h2></div>
+      <div class="faq">
+        <details><summary>Số liệu trên slide có tin được không?</summary><div><p>Ứng dụng giảm sai sót chứ không thay được người đọc lại. AI chỉ được lấy số từ tài liệu bạn đưa vào hoặc từ abstract, toàn văn tra được. Mỗi con số đi kèm câu trích nguyên văn, và phiếu kiểm định báo những số không có nguồn. Trước khi trình bày, bạn vẫn phải mở bài gốc đối chiếu các con số chính.</p></div></details>
+        <details><summary>Dữ liệu ca bệnh có bị gửi đi đâu không?</summary><div><p>Dự án lưu trên máy bạn. Phần chữ cần xử lý được gửi tới nền tảng AI bạn chọn, theo chính sách của nhà cung cấp đó. Với ca bệnh, hãy ẩn danh trước khi đưa vào. Nếu không muốn chữ rời khỏi máy, chọn Ollama. Bộ quét PHI chỉ đọc chữ, nên bạn vẫn phải tự xem lại các hình ảnh.</p></div></details>
+        <details><summary>File PowerPoint có sửa được không?</summary><div><p>Có. Chữ, bảng, biểu đồ cột và sơ đồ đều là đối tượng PowerPoint thật, có cả ghi chú người trình bày. Bạn có thể mở bằng PowerPoint hoặc Google Slides rồi chỉnh tiếp.</p></div></details>
+        <details><summary>Làm slide tiếng Anh cho hội nghị quốc tế được không?</summary><div><p>Được. Chọn “English” ở bước Đề bài: chữ trên slide sẽ bằng tiếng Anh y khoa, số thập phân dùng dấu chấm.</p></div></details>
+        <details><summary>Có phải trả tiền không?</summary><div><p>Ứng dụng miễn phí, mã nguồn mở theo giấy phép MIT. Việc tạo slide dùng hạn mức của tài khoản AI bạn đang có. Tra PubMed, Europe PMC và Crossref miễn phí.</p></div></details>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <div>
+      <p><strong>MedSlide VI Studio</strong> · Huỳnh Anh Thuận · mã nguồn MIT · © <span id="year">2026</span></p>
+      <p>Liên hệ: <a href="mailto:hello@huynhanhthuan.com">hello@huynhanhthuan.com</a> · Cùng tác giả: <a href="https://pdf.huynhanhthuan.com">PDF Layout VI</a></p>
+      <p class="credit">Công cụ hỗ trợ soạn bài trình bày, không thay thế đánh giá chuyên môn. Nội dung y khoa luôn cần người có chuyên môn kiểm tra trước khi trình bày.</p>
+    </div>
+    <nav aria-label="Liên kết cuối trang">
+      <a href="demo/dapa-hf.html">Slide mẫu</a>
+      <a data-github href="https://github.com/thuanhuynh247/medslide-vi-studio">Mã nguồn</a>
+      <a href="https://github.com/thuanhuynh247/medslide-vi-studio/releases">Các phiên bản</a>
+    </nav>
+  </div>
+</footer>
+
+</body>
+</html>

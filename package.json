@@ -1,0 +1,27 @@
+{
+  "name": "medslide-vi-studio",
+  "productName": "MedSlide VI Studio",
+  "version": "1.0.0",
+  "description": "Studio làm slide Y khoa bằng AI trên Windows: hỏi trước, bằng chứng PubMed, kiểm số liệu, xuất HTML/PDF/PPTX; chạy bằng Claude Code, Codex, Gemini, Ollama hoặc API key.",
+  "main": "electron/main.mjs",
+  "author": "Huynh Anh Thuan",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "start": "electron .",
+    "server": "node server/index.mjs",
+    "test": "node --test test/flow.test.mjs",
+    "build:win": "electron-builder --config electron-builder.yml --win --x64 --dir && node scripts/set-exe-icon.mjs \"release/win-unpacked/MedSlide VI Studio.exe\" build/icon.ico 1.0.0 && electron-builder --config electron-builder.yml --win --x64 --prepackaged release/win-unpacked",
+    "smoke": "electron . --no-sandbox"
+  },
+  "dependencies": {
+    "mammoth": "^1.8.0",
+    "pdfjs-dist": "^4.10.38",
+    "pptxgenjs": "^3.12.0"
+  },
+  "devDependencies": {
+    "electron": "^35.0.0",
+    "electron-builder": "^25.1.8",
+    "resedit": "^2.0.3"
+  }
+}
