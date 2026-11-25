@@ -20,8 +20,22 @@ jobs:
         with:
           name: medslide-vi-studio-windows
           path: release/*.exe
-      - if: startsWith(github.ref, 'refs/tags/v')
+      # Tự phát hành: mỗi lần lên main, tạo/cập nhật Release v<version> theo package.json
+      - name: Read version
+        id: ver
+        shell: bash
+        run: echo "v=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+      - if: github.ref == 'refs/heads/main' || startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v2
         with:
-          generate_release_notes: true
+          tag_name: v${{ steps.ver.outputs.v }}
+          target_commitish: ${{ github.sha }}
+          name: MedSlide VI Studio v${{ steps.ver.outputs.v }}
+          make_latest: true
+          body: |
+            Studio làm slide Y khoa bằng AI cho Windows 10/11 (64-bit).
+            - **MedSlide-VI-Studio-Setup-x64.exe**: bộ cài đặt (có lối tắt Desktop, gỡ cài đặt được)
+            - **MedSlide-VI-Studio-Portable-x64.exe**: bản chạy ngay, không cần cài
+            Windows có thể cảnh báo SmartScreen vì ứng dụng chưa ký số: bấm "More info" → "Run anyway".
+            Hướng dẫn: https://github.com/thuanhuynh247/medslide-vi-studio#readme
           files: release/*.exe
