@@ -93,7 +93,7 @@ function vHome(v) {
   <div class="row"><button class="btn primary" id="hNew">Bắt đầu bài mới</button><button class="btn" id="hSample">Xem bài mẫu DAPA-HF</button><button class="btn" id="hAi">Kết nối AI</button></div></div>
   <div><div class="flowline"><div><b>1 · Hỏi trước</b>Loại bài, khán giả, thời lượng, thông điệp</div><div><b>2 · Bằng chứng</b>PubMed, PDF của bạn, trích nguyên văn</div><div><b>3 · Dựng</b>16 bố cục y khoa, 5 phong cách</div><div><b>4 · Kiểm</b>Số liệu, PMID, PHI, slop</div></div>
   <p class="small muted" style="margin-top:14px">Chạy bằng tài khoản AI bạn đã có: Claude Code, Codex (ChatGPT), Gemini CLI, Antigravity, Ollama offline, hoặc khóa API Gemini/OpenRouter. Dữ liệu dự án nằm trên máy bạn.</p></div></div>
-  <div class="card"><h3>Gộp từ ba dự án mã nguồn mở (MIT)</h3><p class="sub">Grand Rounds của BS. Trần Quang Hưng (phương pháp làm slide y khoa có kiểm chứng) · 2Anh Studio của Lương Hải Anh (quy tắc tiếng Việt, PowerPoint sửa được) · Frontend Slides của Zara Zhang (phong cách trình chiếu). Lõi kết nối AI CLI kế thừa PDF Layout VI Studio.</p></div></div>`;
+  <div class="card"><h3>Giấy phép</h3><p class="sub">Ứng dụng miễn phí, mã nguồn MIT. Thông báo giấy phép của các thành phần mã nguồn mở nằm trong thư mục <code>licenses</code> của bộ cài.</p></div></div>`;
   $("#hNew").onclick = () => { S.tab = "brief"; render(); };
   $("#hSample").onclick = () => $("#sampleBtn").click();
   $("#hAi").onclick = openAiSettings;

@@ -1,6 +1,6 @@
 # MedSlide VI Studio
 
-Ứng dụng Windows làm slide Y khoa bằng AI: hỏi trước, có bằng chứng PubMed, tự kiểm số liệu. Bạn không phải cài skill hay plugin nào: tri thức của ba dự án mã nguồn mở đã được đóng gói sẵn vào ứng dụng.
+Ứng dụng Windows làm slide Y khoa bằng AI: hỏi trước, có bằng chứng PubMed, tự kiểm số liệu. Không cần cài thêm gì ngoài AI bạn đang dùng.
 
 ## Quy trình 8 bước
 1. **Đề bài**: chủ đề, loại bài (grand rounds, journal club, ca lâm sàng, M&M, bài giảng, guideline, hội nghị, bảo vệ luận án, giáo dục người bệnh), khán giả, thời lượng, tài liệu nguồn (PDF/DOCX/TXT).
@@ -13,7 +13,7 @@
 8. **Xuất file**: PPTX sửa được (biểu đồ và bảng là đối tượng PowerPoint thật), PDF 16:9, HTML trình chiếu offline có laser, bút khoanh và ghi chú.
 
 ## Nền tảng AI
-Ứng dụng chạy bằng AI bạn đã có trên máy: Claude Code CLI, OpenAI Codex CLI, Gemini CLI, Antigravity, Meta Muse, OpenCode, Copilot CLI, Qwen Code, Ollama (offline). Bạn cũng có thể dùng khóa Gemini API hoặc OpenRouter. Lõi kết nối kế thừa từ PDF Layout VI Studio.
+Ứng dụng chạy bằng AI bạn đã có trên máy: Claude Code CLI, OpenAI Codex CLI, Gemini CLI, Antigravity, Meta Muse, OpenCode, Copilot CLI, Qwen Code, Ollama (offline). Bạn cũng có thể dùng khóa Gemini API hoặc OpenRouter. 
 
 ## Build
 ```
@@ -25,7 +25,7 @@ Muốn có bản cài đặt, đẩy mã lên GitHub: workflow `.github/workflow
 
 Dữ liệu dự án được lưu ở `Documents\MedSlide VI Studio\`. Cấu hình và khóa API nằm ở `%APPDATA%\MedSlide VI Studio\`.
 
-Phần ghi công cho grand-rounds, 2anh-studio và frontend-slides (đều theo giấy phép MIT) nằm trong [NOTICE.md](NOTICE.md).
+Thông báo giấy phép của các thành phần mã nguồn mở: xem `NOTICE.md` và thư mục `licenses/`.
 
 ## Website
 Trang chủ: https://medslide-vi-studio.vercel.app — thư mục `web/` là trang giới thiệu tĩnh, triển khai trên Vercel với Root Directory là `web`. Nút tải luôn trỏ tới bản phát hành mới nhất trên GitHub Releases (`MedSlide-VI-Studio-Setup-x64.exe`, `MedSlide-VI-Studio-Portable-x64.exe`). Đổi phiên bản trong `web/config.js`.

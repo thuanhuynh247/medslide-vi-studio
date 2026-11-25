@@ -15,7 +15,7 @@ import { THEMES } from "./themes.mjs";
 import { DECK_TYPES } from "./prompts.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const VERSION = "1.0.0";
+const VERSION = "1.0.1";
 const UI_DIR = process.env.MEDSLIDE_UI_DIR && fs.existsSync(process.env.MEDSLIDE_UI_DIR) ? process.env.MEDSLIDE_UI_DIR : path.resolve(__dirname, "..", "app");
 const SAMPLE = path.resolve(__dirname, "..", "test", "fixtures", "sample-project.json");
 
